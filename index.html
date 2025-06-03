@@ -1,45 +1,46 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>AR Sketchfab Model</title>
-
-    <!-- Library A-Frame dan AR.js -->
-    <script src="assets/js/aframe.min.js"></script>
-    <script src="assets/js/aframe-ar.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
-  </head>
-
-  <body style="margin: 0; overflow: hidden">
-    <a-scene
-      embedded
-      arjs
-      renderer="logarithmicDepthBuffer: true; antialias: true;"
-    >
-      
-      <!-- Memuat model GLB -->
-      <a-assets timeout="10000">
-        <a-asset-item
-          id="model"
-          src="assets/luffy.glb">
-        </a-asset-item>
-      </a-assets>
-      <a-entity light="type: ambient; color: #BBB"></a-entity>
-      <a-entity light="type: directional; color: #FFF; intensity: 0.6" position="1 1 1"></a-entity>
-      <!-- Marker AR + Model dengan animasi aktif -->
-      <a-marker type="pattern" url="assets/target.patt">
-        <a-entity 
-          gltf-model="assets/scene.gltf" 
-          scale="0.8 0.8 0.8" 
-          position="0 0 0.3" 
-          rotation="270 0 0" 
-          animation-mixer="clip: Pose_01; loop: once; timeScale: 1;"
-          material="side: double; alphaTest: 0.1;">
-        </a-entity>
-      </a-marker>
-
-      <!-- Kamera AR -->
-      <a-entity camera></a-entity>
-    </a-scene>
-  </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR TATA SURYA</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script>
+    AFRAME.registerComponent('soundhandler', {
+            init: function () {
+                this.soundEl = document.querySelector('[sound]');
+                this.marker = document.querySelector('a-marker');
+                this.visible = false;
+                },
+               tick: function () {
+    
+                if (this.marker.object3D.visible && !this.visible) {
+                    console.log("ding")
+                    this.soundEl.components. sound.stopSound(); // stop if playing
+                    this.soundEl.components. sound.playSound(); // play
+                    this.visible = true; // make sure it plays only once per visible
+                } else if (!this.marker.object3D.visible) {
+                    this.visible = false;
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+    <a-scene embedded arjs='sourceType: webcam; debugUIEnabled: false;';>
+        <a-assets>
+             <audio id="sound" src="assets/space-sound.mp3" preload="auto"></audio>
+         </a-assets>""
+         <a-marker preset="custom" type="pattern" url="assets/pattern-sun.patt">
+            <a-entity gltf-model="assets/sun.glb" scale="1 1 1" position="0.5 0 0"
+                animation="property:rotation; from:0 0 0; to: 0 360 0; dur: 3000; loop:true">
+                <a-sound src="assets/space-sound.mp3" autoplay="true" position="0 0 0"></a-sound>
+            </a-entity>
+        </a-marker>More actions
+         <a-entity sound="src: #sound" autoplay="false"></a-entity>
+         <a-entity camera></a-entity>
+ </a-scene>
+</body>
 </html>
+
