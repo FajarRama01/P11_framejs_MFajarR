@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>AR Sketchfab Model</title>
+
+    <!-- Library A-Frame dan AR.js -->
+    <script src="assets/js/aframe.min.js"></script>
+    <script src="assets/js/aframe-ar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
+  </head>
+
+  <body style="margin: 0; overflow: hidden">
+    <a-scene
+      embedded
+      arjs
+      renderer="logarithmicDepthBuffer: true; antialias: true;"
+    >
+      
+      <!-- Memuat model GLB -->
+      <a-assets timeout="10000">
+        <a-asset-item
+          id="model"
+          src="assets/luffy.glb">
+        </a-asset-item>
+      </a-assets>
+      <a-entity light="type: ambient; color: #BBB"></a-entity>
+      <a-entity light="type: directional; color: #FFF; intensity: 0.6" position="1 1 1"></a-entity>
+      <!-- Marker AR + Model dengan animasi aktif -->
+      <a-marker type="pattern" url="assets/target.patt">
+        <a-entity 
+          gltf-model="assets/scene.gltf" 
+          scale="0.8 0.8 0.8" 
+          position="0 0 0.3" 
+          rotation="270 0 0" 
+          animation-mixer="clip: Pose_01; loop: once; timeScale: 1;"
+          material="side: double; alphaTest: 0.1;">
+        </a-entity>
+      </a-marker>
+
+      <!-- Kamera AR -->
+      <a-entity camera></a-entity>
+    </a-scene>
+  </body>
+</html>
